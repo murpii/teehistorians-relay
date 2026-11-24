@@ -1,0 +1,18 @@
+name: relay
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "3-59/10 * * * *"
+concurrency:
+  group: relay
+  cancel-in-progress: true
+jobs:
+  relay:
+    runs-on: macos-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - run: python3 relay.py
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          RELAY_KEY: ${{ secrets.RELAY_KEY }}
